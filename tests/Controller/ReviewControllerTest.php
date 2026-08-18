@@ -86,7 +86,7 @@ class ReviewControllerTest extends WebTestCase
         $review = new \App\Entity\Review();
         $review->setCompanyName($companyName);
         $review->setRating($rating);
-        $review->setReviewText('Test review for ' . $companyName);
+        $review->setReviewText('Test review for '.$companyName);
         $review->setAuthorEmail('test@example.com');
         $this->em->persist($review);
         $this->em->flush();

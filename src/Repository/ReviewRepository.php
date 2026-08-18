@@ -35,7 +35,7 @@ class ReviewRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.company_name LIKE :companyName')
-            ->setParameter('companyName', '%' . $companyName . '%')
+            ->setParameter('companyName', '%'.$companyName.'%')
             ->orderBy('r.created_at', 'DESC')
             ->getQuery()
             ->getResult();
@@ -55,7 +55,7 @@ class ReviewRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        return array_map(fn($row) => [
+        return array_map(fn ($row) => [
             'company_name' => $row['company_name'],
             'review_count' => (int) $row['review_count'],
             'avg_rating' => round((float) $row['avg_rating'], 1),

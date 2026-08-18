@@ -73,7 +73,7 @@ class ReviewTest extends TestCase
             $this->createReviewWithRating(4),
         ];
 
-        usort($reviews, fn($a, $b) => $b->getRating() <=> $a->getRating());
+        usort($reviews, fn ($a, $b) => $b->getRating() <=> $a->getRating());
 
         $this->assertSame(5, $reviews[0]->getRating());
         $this->assertSame(4, $reviews[1]->getRating());
@@ -89,7 +89,7 @@ class ReviewTest extends TestCase
             $this->createReviewWithDate(new \DateTimeImmutable('2026-03-10')),
         ];
 
-        usort($reviews, fn($a, $b) => $b->getCreatedAt() <=> $a->getCreatedAt());
+        usort($reviews, fn ($a, $b) => $b->getCreatedAt() <=> $a->getCreatedAt());
 
         $this->assertSame('2026-06-15', $reviews[0]->getCreatedAt()->format('Y-m-d'));
         $this->assertSame('2026-03-10', $reviews[1]->getCreatedAt()->format('Y-m-d'));
@@ -100,6 +100,7 @@ class ReviewTest extends TestCase
     {
         $review = new Review();
         $review->setRating($rating);
+
         return $review;
     }
 
@@ -109,6 +110,7 @@ class ReviewTest extends TestCase
         $reflection = new \ReflectionClass($review);
         $property = $reflection->getProperty('created_at');
         $property->setValue($review, $date);
+
         return $review;
     }
 }
