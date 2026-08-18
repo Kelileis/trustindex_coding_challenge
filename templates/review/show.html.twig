@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ review.companyName }} - Vélemény{% endblock %}
+
+{% block body %}
+<div class="container">
+    <a href="{{ path('app_review_index') }}" class="back-link">&larr; Vissza a listához</a>
+
+    <div class="review-detail">
+        <div class="review-header">
+            <span class="company-name">{{ review.companyName }}</span>
+            <span class="rating">
+                {% for i in 1..5 %}
+                    {% if i <= review.rating %}&#9733;{% else %}&#9734;{% endif %}
+                {% endfor %}
+                <span class="rating-count">({{ review.rating }}/5)</span>
+            </span>
+        </div>
+
+        <div class="review-text">{{ review.reviewText }}</div>
+
+        <div class="review-meta">
+            <strong>Szerző e-mail címe:</strong> {{ review.authorEmail }}<br>
+            <strong>Közzétéve:</strong> {{ review.createdAt|date('Y-m-d H:i') }}<br>
+        </div>
+    </div>
+</div>
+{% endblock %}

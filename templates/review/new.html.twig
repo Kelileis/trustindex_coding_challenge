@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Új vélemény{% endblock %}
+
+{% block body %}
+<div class="container">
+    <a href="{{ path('app_review_index') }}" class="back-link">&larr; Vissza a listához</a>
+    <h1>Új vélemény írása</h1>
+
+    {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_label(form.company_name) }}
+            {{ form_widget(form.company_name) }}
+            {% if form.company_name.vars.errors|length > 0 %}
+                <div class="form-errors">
+                    {% for error in form.company_name.vars.errors %}
+                        {{ error.message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>Értékelés</label>
+            <div class="star-rating">
+                {% for i in 5..1 %}
+                    <input type="radio" id="star{{ i }}" name="review[rating]" value="{{ i }}" {% if form.rating.vars.value == i %}checked{% endif %}>
+                    <label for="star{{ i }}">&#9733;</label>
+                {% endfor %}
+            </div>
+            {% if form.rating.vars.errors|length > 0 %}
+                <div class="form-errors">
+                    {% for error in form.rating.vars.errors %}
+                        {{ error.message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.review_text) }}
+            {{ form_widget(form.review_text) }}
+            {% if form.review_text.vars.errors|length > 0 %}
+                <div class="form-errors">
+                    {% for error in form.review_text.vars.errors %}
+                        {{ error.message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.author_email) }}
+            {{ form_widget(form.author_email) }}
+            {% if form.author_email.vars.errors|length > 0 %}
+                <div class="form-errors">
+                    {% for error in form.author_email.vars.errors %}
+                        {{ error.message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        {{ form_widget(form._token) }}
+        <button type="submit" class="btn-submit">Küldés</button>
+    {{ form_end(form, {'render_rest': false}) }}
+</div>
+{% endblock %}

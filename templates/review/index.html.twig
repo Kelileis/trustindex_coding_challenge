@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cég vélemények{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Cég vélemények</h1>
+
+    <div class="nav-links">
+        <a href="{{ path('app_review_new') }}" class="btn-primary">Új vélemény írása</a>
+        <a href="{{ path('app_companies') }}">Cég statisztikák</a>
+    </div>
+
+    {% for message in app.flashes('success') %}
+        <div class="flash-success">{{ message }}</div>
+    {% endfor %}
+
+    <form class="search-form" method="get" action="{{ path('app_review_index') }}">
+        <input type="text" name="search" placeholder="Keresés cég név alapján..." value="{{ search|default('') }}">
+        <button type="submit">Keresés</button>
+        {% if search %}
+            <a href="{{ path('app_review_index') }}" class="search-clear">Törlés</a>
+        {% endif %}
+    </form>
+
+    {% if search %}
+        <div class="search-info">Eredmények: "{{ search }}" keresésre ({{ reviews|length }} találat)</div>
+    {% endif %}
+
+    {% if reviews is empty %}
+        <div class="no-reviews">
+            <p>{% if search %}Nincs találat a keresésre.{% else %}Még nincsenek vélemenyek.{% endif %}</p>
+        </div>
+    {% else %}
+        {% for review in reviews %}
+            <a href="{{ path('app_review_show', {id: review.id}) }}" class="review-card-link">
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="company-name">{{ review.companyName }}</span>
+                        <span class="rating">
+                            {% for i in 1..5 %}
+                                {% if i <= review.rating %}&#9733;{% else %}&#9734;{% endif %}
+                            {% endfor %}
+                        </span>
+                    </div>
+                    <div class="review-text">
+                        {{ review.reviewText|length > 150 ? review.reviewText|slice(0, 150) ~ '...' : review.reviewText }}
+                    </div>
+                    <div class="review-meta">
+                        {{ review.authorEmail }} | {{ review.createdAt|date('Y-m-d H:i') }}
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

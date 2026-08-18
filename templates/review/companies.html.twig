@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cégstatisztikák{% endblock %}
+
+{% block body %}
+<div class="container">
+    <a href="{{ path('app_review_index') }}" class="back-link">&larr; Vissza a listához</a>
+    <h1>Cégstatisztikák</h1>
+
+    {% if companies is empty %}
+        <div class="no-data">
+            <p>Még nincsenek statisztikák.</p>
+        </div>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Cég neve</th>
+                    <th>Vélemények száma</th>
+                    <th>Átlagos értékelés</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for company in companies %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <a href="{{ path('app_review_index', {search: company.company_name}) }}" class="table-link">
+                                {{ company.company_name }}
+                            </a>
+                        </td>
+                        <td>{{ company.review_count }}</td>
+                        <td>
+                            <span class="rating">
+                                {% for i in 1..5 %}
+                                    {% if i <= company.avg_rating %}&#9733;{% else %}&#9734;{% endif %}
+                                {% endfor %}
+                            </span>
+                            <span class="table-rating-value">{{ company.avg_rating }}</span>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}
